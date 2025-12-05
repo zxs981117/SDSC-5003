@@ -22,7 +22,6 @@
 <div th:include="personal_nav :: personal_nav" class="personal_nav"></div>
 
 <div class="mall-container">
-    <!-- 侧边分类导航 -->
     <aside class="category-sidebar">
         <div class="sidebar-header">
             <i class="fas fa-th-large"></i>
@@ -60,16 +59,12 @@
                 <i class="fas fa-chevron-right"></i>
             </li>
         </ul>
-        
-        <!-- 子分类弹出层 -->
+
         <div class="subcategory-popup" onmouseleave="hideParticular()">
-            <!-- 动态内容将由JavaScript生成 -->
         </div>
     </aside>
 
-    <!-- 主要内容区域 -->
     <main class="main-content" onmousedown="hideParticular()">
-        <!-- 搜索与筛选栏 -->
         <section class="search-filter-bar" th:with="kw=${keyword}">
             <form class="search-form" th:action="@{/findShopByName.do}" method="get">
                 <div class="search-field">
@@ -108,7 +103,6 @@
             </div>
         </section>
 
-        <!-- 排序按钮 -->
         <section class="filter-bar">
             <div class="filter-left">
                 <span class="filter-label">Sort by</span>
@@ -118,7 +112,6 @@
                 <button type="button" class="filter-btn" data-sort="latest">Latest</button>
             </div>
         </section>
-        <!-- 商品网格 -->
         <div class="products-grid">
             <div class="product-card" th:each="product : ${shopInformationBean}">
                 <input type="hidden" th:value="${product.id}" name="id"/>
@@ -148,7 +141,6 @@
             </div>
         </div>
 
-        <!-- 分页导航 -->
         <nav class="pagination-nav" onmouseleave="hideParticular()">
             <button class="pagination-btn prev-btn">
                 <i class="fas fa-chevron-left"></i>
@@ -165,7 +157,6 @@
             </button>
         </nav>
 
-        <!-- 最近浏览商品 -->
         <section class="recent-viewed-section"
                  th:if="${recentViewed!= null and #lists.size(recentViewed) > 0}">
             <h2>Recently Viewed</h2>
