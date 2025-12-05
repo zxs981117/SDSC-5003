@@ -9,23 +9,22 @@ A web-based Second-hand Trading Platform designed for university campuses. This 
 - [Prerequisites](#-prerequisites)
 - [Installation & Setup](#-installation--setup)
 - [How to Run](#-how-to-run)
-- [Configuration](#-configuration)
 
 ---
 
 ## ✨ Features
-* **User Authentication**: Token-based login system (implied by `token` package).
+* **User Authentication**: Token-based login system.
 * **Goods Management**: Publish, edit, and delete trading items.
 * **Browsing & Search**: Search functionality and categorized listings.
-* **Global Error Handling**: Centralized exception handling (`error` and `handle` packages).
-* **AOP Logging/Transaction**: Aspect-Oriented Programming support (`aspect` package).
+* **Global Error Handling**: Centralized exception handling.
+* **AOP Logging/Transaction**: Aspect-Oriented Programming support.
 
 ---
 
 ## 📂 Project Structure
 
 ```text
-Used-Trading-Platform/
+SDSC-5003/
 ├── SQL/
 │   └── c2c.sql                # Database initialization script
 ├── src/main/
@@ -49,6 +48,9 @@ Used-Trading-Platform/
 │       ├── mystatic/          # Static assets (CSS, JS, Images)
 │       ├── templates/         # Thymeleaf HTML Views
 │       └── application.yml    # Main Configuration File
+├── target/                    # [Auto-Generated] Maven Build Output
+│   ├── classes/               # Compiled bytecode & resources
+│   └── generated-sources/
 ├── .gitignore
 └── README.md
 ````
@@ -59,7 +61,7 @@ Used-Trading-Platform/
 
   * **Language**: Java 8+
   * **Framework**: Spring Boot
-  * **Database**: MySQL 5.7 / 8.0
+  * **Database**: MySQL 5.7
   * **ORM**: MyBatis
   * **Frontend**: Thymeleaf, HTML, CSS, JavaScript
   * **Build Tool**: Maven
@@ -82,16 +84,27 @@ Before running the project, make sure you have:
 ### 1\. Clone the Repository
 
 ```bash
-git clone [https://github.com/wsk1103/Used-Trading-Platform2.git](https://github.com/wsk1103/Used-Trading-Platform2.git)
+git clone [https://github.com/zxs981117/SDSC-5003.git](https://github.com/zxs981117/SDSC-5003.git)
 ```
 
-### 2\. Database Initialization
+### 2\. Database Initialization (GUI Tool Recommended)
 
-1.  Create a MySQL database (default name is usually `c2c` or `used_trading_platform`).
-    ```sql
-    CREATE DATABASE c2c DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-    ```
-2.  Run the SQL script located at **`SQL/c2c.sql`** to create tables and import data.
+It is recommended to use graphical tools like **Navicat** or **DBeaver** for easier operation.
+
+1.  **Connect to Database**:
+    * Open Navicat or DBeaver and connect to your local MySQL server.
+
+2.  **Create New Database**:
+    * **Name**: `c2c` (Default recommendation)
+    * **Character Set**: Select `utf8mb4` (Supports Chinese characters and emojis)
+    * **Collation**: Select `utf8mb4_general_ci`
+    * Execute creation.
+
+3.  **Import Data**:
+    * Select the newly created `c2c` database.
+    * Choose **"Execute SQL File"** (Navicat) or **"Execute Script"** (DBeaver).
+    * Select the file located in the project directory: `SQL/c2c.sql`.
+    * Click Start and wait for the import to complete (Refresh the tables to verify data).
 
 ### 3\. Application Configuration
 
@@ -101,13 +114,10 @@ Modify the database connection settings to match your local environment:
 ```yaml
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/c2c?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/c2c?characterEncoding=utf8&useUnicode=true
     username: root          # Change to your MySQL username
     password: your_password # Change to your MySQL password
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-mybatis:
-  mapper-locations: classpath:mapping/*.xml  # Points to XML mappers
 ```
 
 -----
@@ -131,20 +141,6 @@ Once started, access the application at:
 
   * **http://localhost:8080** (or the port defined in `application.yml`)
 
------
-
-## ❓ Troubleshooting
-
-  * **Static Resources 404**:
-    Since the static folder is named `mystatic`, ensure your Spring Boot configuration (or `WebMvcConfig`) correctly maps static resource paths to `classpath:/mystatic/`.
-
-  * **Database Connection Failed**:
-    Double-check the `url`, `username`, and `password` in `application.yml`.
-
------
 
 **License**
 This project is open source.
-
-```
-```
