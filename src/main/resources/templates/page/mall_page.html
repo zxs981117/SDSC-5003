@@ -167,7 +167,7 @@
 
         <!-- 最近浏览商品 -->
         <section class="recent-viewed-section"
-                 th:if="${recentViewed} != null and #lists.size(recentViewed) > 0">
+                 th:if="${recentViewed!= null and #lists.size(recentViewed) > 0}">
             <h2>Recently Viewed</h2>
             <div class="products-grid recent-products-grid">
                 <div class="product-card" th:each="product : ${recentViewed}">
