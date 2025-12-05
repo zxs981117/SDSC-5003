@@ -142,5 +142,5 @@ Once started, access the application at:
   * **http://localhost:8080** (or the port defined in `application.yml`)
 
 
-**License**
+## License
 This project is open source.
