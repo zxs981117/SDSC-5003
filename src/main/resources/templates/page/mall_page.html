@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Mall - CityuShop Second-hand Trading Platform</title>
+    <link rel="icon" href="/img/page_icon.png"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/fontawesome/css/all.min.css}"/>
+    <link th:href="@{/css/home_page/header_and_nav.css}" rel="stylesheet"/>
+    <link th:href="@{/css/mall_page/mall_page_other.css}" rel="stylesheet"/>
+    <script th:src="@{/js/jquery-1.3.2.min.js}"></script>
+    <script th:src="@{/js/home/header_model_js.js}"></script>
+    <script th:src="@{/js/mall/type_list_obj.js}"></script>
+    <script th:src="@{/js/mall/left_nav_on_goods_page.js}"></script>
+</head>
+<body>
+<header th:include="header :: copy"></header>
+<div th:include="short_nav_show :: short_nav_show" class="short_nav_show"></div>
+<nav th:include="my_nav :: my_nav" class="my_nav"></nav>
+<div th:include="personal_nav :: personal_nav" class="personal_nav"></div>
+
+<div class="mall-container">
+    <!-- 侧边分类导航 -->
+    <aside class="category-sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-th-large"></i>
+            <h3>Product Categories</h3>
+        </div>
+        <ul class="category-list">
+            <li class="category-item type_1" data-category="digital">
+                <i class="fas fa-mobile-alt"></i>
+                <span>Digital Technology</span>
+                <i class="fas fa-chevron-right"></i>
+            </li>
+            <li class="category-item type_2" data-category="appliance">
+                <i class="fas fa-tv"></i>
+                <span>Audio & Home Appliances</span>
+                <i class="fas fa-chevron-right"></i>
+            </li>
+            <li class="category-item type_3" data-category="fashion">
+                <i class="fas fa-tshirt"></i>
+                <span>Shoes, Clothing & Accessories</span>
+                <i class="fas fa-chevron-right"></i>
+            </li>
+            <li class="category-item type_4" data-category="sports">
+                <i class="fas fa-bicycle"></i>
+                <span>Sports & Transportation</span>
+                <i class="fas fa-chevron-right"></i>
+            </li>
+            <li class="category-item type_5" data-category="books">
+                <i class="fas fa-book"></i>
+                <span>Books & Stationery</span>
+                <i class="fas fa-chevron-right"></i>
+            </li>
+            <li class="category-item type_6" data-category="others">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>Others</span>
+                <i class="fas fa-chevron-right"></i>
+            </li>
+        </ul>
+        
+        <!-- 子分类弹出层 -->
+        <div class="subcategory-popup" onmouseleave="hideParticular()">
+            <!-- 动态内容将由JavaScript生成 -->
+        </div>
+    </aside>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content" onmousedown="hideParticular()">
+        <!-- 搜索与筛选栏 -->
+        <section class="search-filter-bar" th:with="kw=${keyword}">
+            <form class="search-form" th:action="@{/findShopByName.do}" method="get">
+                <div class="search-field">
+                    <label for="keyword">Keyword</label>
+                    <input id="keyword"
+                           type="text"
+                           name="name"
+                           placeholder="Search product name..."
+                           th:value="${keyword}"/>
+                </div>
+                <div class="search-field">
+                    <label for="minPrice">Min Price</label>
+                    <input id="minPrice"
+                           type="number"
+                           step="0.01"
+                           min="0"
+                           name="minPrice"
+                           th:value="${minPrice}"/>
+                </div>
+                <div class="search-field">
+                    <label for="maxPrice">Max Price</label>
+                    <input id="maxPrice"
+                           type="number"
+                           step="0.01"
+                           min="0"
+                           name="maxPrice"
+                           th:value="${maxPrice}"/>
+                </div>
+                <button type="submit" class="search-submit-btn">
+                    <i class="fas fa-search"></i>
+                    <span>Search</span>
+                </button>
+            </form>
+            <div class="result-count" th:if="${shopInformationBean != null}">
+                <span>Found <strong th:text="${#lists.size(shopInformationBean)}">0</strong> products</span>
+            </div>
+        </section>
+
+        <!-- 排序按钮 -->
+        <section class="filter-bar">
+            <div class="filter-left">
+                <span class="filter-label">Sort by</span>
+                <button type="button" class="filter-btn active" data-sort="default">Default</button>
+                <button type="button" class="filter-btn" data-sort="priceAsc">Price ↑</button>
+                <button type="button" class="filter-btn" data-sort="priceDesc">Price ↓</button>
+                <button type="button" class="filter-btn" data-sort="latest">Latest</button>
+            </div>
+        </section>
+        <!-- 商品网格 -->
+        <div class="products-grid">
+            <div class="product-card" th:each="product : ${shopInformationBean}">
+                <input type="hidden" th:value="${product.id}" name="id"/>
+                <div class="product-image">
+                    <img th:src="${product.image}" th:alt="${product.name}" class="product-img"/>
+                    <div class="product-overlay">
+                        <p class="product-description" th:text="${product.remark}">Product Description</p>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-badge"
+                         th:with="lvl=${product.level}">
+                        <span th:if="${lvl} != null and ${lvl} &gt;= 4">Almost New</span>
+                        <span th:if="${lvl} != null and ${lvl} == 3">Good Condition</span>
+                        <span th:if="${lvl} != null and ${lvl} &lt;= 2">Used</span>
+                    </div>
+                    <h3 class="product-title" th:text="${product.name}" th:data-product-id="${product.id}">Product Name</h3>
+                    <div class="product-price">
+                        <span class="price-symbol">$</span>
+                        <span class="price-value" th:text="${product.price}">0</span>
+                    </div>
+                    <button class="add-to-cart-btn" th:value="${product.id}">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Add to Cart</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分页导航 -->
+        <nav class="pagination-nav" onmouseleave="hideParticular()">
+            <button class="pagination-btn prev-btn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="pagination-numbers">
+                <button class="page-number active">1</button>
+                <button class="page-number">2</button>
+                <button class="page-number">3</button>
+                <button class="page-number">4</button>
+                <button class="page-number">5</button>
+            </div>
+            <button class="pagination-btn next-btn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </nav>
+
+        <!-- 最近浏览商品 -->
+        <section class="recent-viewed-section"
+                 th:if="${recentViewed} != null and #lists.size(recentViewed) > 0">
+            <h2>Recently Viewed</h2>
+            <div class="products-grid recent-products-grid">
+                <div class="product-card" th:each="product : ${recentViewed}">
+                    <input type="hidden" th:value="${product.id}" name="id"/>
+                    <div class="product-image">
+                        <img th:src="${product.image}" th:alt="${product.name}" class="product-img"/>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title"
+                            th:text="${product.name}"
+                            th:data-product-id="${product.id}">Product Name</h3>
+                        <div class="product-price">
+                            <span class="price-symbol">$</span>
+                            <span class="price-value" th:text="${product.price}">0</span>
+                        </div>
+                        <a th:href="'/selectById.do?id='+${product.id}" class="view-detail-link">
+                            View Detail
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<footer class="mall-footer">
+    <p>Copyright © 2017-2200.Company name All rights reserved.<a href="/">Back to Home</a></p>
+</footer>
+</body>
+</html>

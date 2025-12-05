@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Feedback &amp; Suggestions - CityuShop</title>
+    <link rel="icon" href="/img/page_icon.png"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/fontawesome/css/all.min.css}"/>
+    <link th:href="@{/css/home_page/header_and_nav.css}" rel="stylesheet"/>
+    <link th:href="@{/css/home_page/modern_home.css}" rel="stylesheet"/>
+    <style>
+        .static-page-container {
+            max-width: 1100px;
+            margin: 40px auto 60px;
+            padding: 32px 40px;
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .static-page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .static-page-title-group h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #111827;
+            margin: 0 0 6px;
+        }
+
+        .static-page-title-group p {
+            margin: 0;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .static-page-badge {
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .03em;
+            text-transform: uppercase;
+            background: #e0f2fe;
+            color: #0369a1;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .static-page-badge i {
+            font-size: 12px;
+        }
+
+        .static-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+            gap: 32px;
+            margin-top: 12px;
+        }
+
+        .static-card {
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+            padding: 22px 20px;
+            background: #fafafa;
+        }
+
+        .static-card h2 {
+            margin: 0 0 12px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .static-card h2 i {
+            color: #2563eb;
+        }
+
+        .static-card p {
+            margin: 0 0 10px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #4b5563;
+        }
+
+        .static-list {
+            padding-left: 18px;
+            margin: 0;
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        .static-list li {
+            margin-bottom: 6px;
+        }
+
+        .static-highlight {
+            border-radius: 12px;
+            padding: 12px 14px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            font-size: 13px;
+            color: #1d4ed8;
+            margin-top: 12px;
+        }
+
+        .static-note {
+            margin-top: 14px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        @media (max-width: 900px) {
+            .static-page-container {
+                margin: 20px 12px 40px;
+                padding: 20px 18px;
+            }
+
+            .static-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+<header th:include="header :: copy"></header>
+<div th:include="short_nav_show :: short_nav_show" class="short_nav_show"></div>
+<nav th:include="my_nav :: my_nav" class="my_nav"></nav>
+<div th:include="personal_nav :: personal_nav" class="personal_nav"></div>
+
+<main class="static-page-container">
+    <div class="static-page-header">
+        <div class="static-page-title-group">
+            <h1>Feedback &amp; Suggestions</h1>
+            <p>Help us make CityuShop better for every student on campus.</p>
+        </div>
+        <span class="static-page-badge">
+            <i class="fas fa-heart"></i>
+            Your voice matters
+        </span>
+    </div>
+
+    <div class="static-grid">
+        <section class="static-card">
+            <h2><i class="fas fa-comment-dots"></i> What kind of feedback can you share?</h2>
+            <p>
+                You can send us any thoughts about using CityuShop. We welcome both positive feedback and
+                constructive suggestions, for example:
+            </p>
+            <ul class="static-list">
+                <li>Ideas to improve the buying or selling experience</li>
+                <li>Suggestions for new product categories or features</li>
+                <li>Questions about security, privacy, or transaction safety</li>
+                <li>Layout, interface, or usability improvements you would like to see</li>
+            </ul>
+            <div class="static-highlight">
+                Please describe your suggestion as clearly as possible (including screenshots or links if needed)
+                so that our team can understand and evaluate it more quickly.
+            </div>
+        </section>
+
+        <aside class="static-card">
+            <h2><i class="fas fa-paper-plane"></i> How to submit suggestions?</h2>
+            <p>
+                Currently we support the following ways to send your suggestions:
+            </p>
+            <ul class="static-list">
+                <li>Send an email to: <strong>cityushop-support@example.com</strong></li>
+                <li>Contact the platform administrator through the campus communication tools</li>
+                <li>Leave feedback when participating in campus events related to CityuShop</li>
+            </ul>
+            <p class="static-note">
+                We review feedback regularly. If your suggestion involves important functions or
+                bugs, we will prioritize processing and, when appropriate, announce updates on the homepage.
+            </p>
+        </aside>
+    </div>
+</main>
+
+<footer class="mall-footer">
+    <p>Copyright © 2017-2200.Company name All rights reserved.
+        <a href="/">Back to Home</a>
+    </p>
+</footer>
+</body>
+</html>
+
+

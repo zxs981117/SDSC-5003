@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Modify Request Product</title>
+    <link rel="icon" href="/img/page_icon.png"/>
+    <link rel="stylesheet" href="/css/fontawesome/css/all.min.css"/>
+    <link rel="stylesheet" href="/css/home_page/header_and_nav.css"/>
+    <link rel="stylesheet" href="/css/product/publish_product.css"/>
+    <script src="/js/jquery-1.3.2.min.js"></script>
+    <script src="/js/home/header_model_js.js"></script>
+    <script src="/js/mall/type_list_obj.js"></script>
+    <script src="/js/publish/publish_product.js"></script>
+    <script src="/js/publish/publish_product_modern.js"></script>
+</head>
+<body>
+<header th:include="header :: copy"></header>
+<div th:include="short_nav_show :: short_nav_show" class="short_nav_show"></div>
+<nav th:include="my_nav :: my_nav" class="my_nav"></nav>
+<div th:include="personal_nav :: personal_nav" class="personal_nav"></div>
+<!--name,sort,quantity,price,remark,token,-->
+<div class="publish-container">
+    <div class="publish-card">
+        <div class="card-header">
+            <i class="fas fa-edit"></i>
+            <h1>Modify Request Product</h1>
+        </div>
+        
+        <form action="/publishUserWant.do" method="post" class="publish-form">
+            <input type="hidden" th:value="${token}" name="token"/>
+            <input type="hidden" th:value="${userWant.id}" name="id"/>
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-tag"></i>
+                    Product Name
+                </label>
+                <div class="form-input">
+                    <input type="text" class="title_input" name="name" required="required" placeholder="Please enter product name"
+                           th:value="${userWant.name}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-sort-numeric-up"></i>
+                    Quantity
+                </label>
+                <div class="form-input">
+                    <input type="text" class="count_input" name="quantity" required="required" placeholder="Please enter quantity"
+                           th:value="${userWant.quantity}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-yen-sign"></i>
+                    Unit Price
+                </label>
+                <div class="form-input price-input">
+                    <input type="text" class="cost_input" name="price" required="required" placeholder="0.00"
+                           th:value="${userWant.price}"/>
+                    <span class="currency">USD</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-align-left"></i>
+                    Details
+                </label>
+                <div class="form-input">
+                    <textarea class="detail_textarea" maxlength="122" placeholder="Leave contact information for sellers to reach you" name="remark"
+                              required="required" th:value="${userWant.remark}" th:text="${userWant.remark}"></textarea>
+                    <div class="char-count">
+                        <span class="current">0</span>/<span class="max">122</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-list"></i>
+                    Category
+                </label>
+                <div class="form-input category-select">
+                    <select class="choose_first_type">
+                        <option id="type_1" selected="selected">Digital Technology</option>
+                        <option id="type_2">Audio & Home Appliances</option>
+                        <option id="type_3">Shoes, Clothing & Accessories</option>
+                        <option id="type_4">Sports & Transportation</option>
+                        <option id="type_5">Books & Stationery</option>
+                        <option id="type_6">Others</option>
+                    </select>
+                    <i class="fas fa-chevron-right category-arrow"></i>
+                    <select class="choose_second_type">
+                        <option>30% New</option>
+                        <option>40% New</option>
+                        <option>50% New</option>
+                        <option>60% New</option>
+                        <option>70% New</option>
+                        <option>80% New</option>
+                        <option>90% New</option>
+                        <option>Brand New</option>
+                    </select>
+                    <i class="fas fa-chevron-right category-arrow"></i>
+                    <select class="choose_third_type" name="sort">
+                        <option>30% New</option>
+                        <option>40% New</option>
+                        <option>50% New</option>
+                        <option>60% New</option>
+                        <option>70% New</option>
+                        <option>80% New</option>
+                        <option>90% New</option>
+                        <option>Brand New</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i>
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer class="mall-footer">
+    <p>Copyright © 2017.Company name All rights reserved.<a href="/"></a></p>
+</footer>
+</body>
+</html>

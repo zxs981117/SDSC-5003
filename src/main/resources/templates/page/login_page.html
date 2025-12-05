@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>CityuShop Platform</title>
+    <script src="/js/jquery-1.3.2.min.js">
+    </script>
+    <script src="/js/login/init_login.js"></script>
+    <link rel="icon" href="/img/page_icon.png"/>
+    <link rel="stylesheet" href="/css/login_and_register/login_back.css"/>
+    <style>
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background-color: #f3f6f5;
+        }
+        
+        body {
+            background-color: transparent;
+        }
+    </style>
+
+</head>
+<body>
+<!--粒子碰撞特效画布-->
+<canvas id="particles-canvas"></canvas>
+<script>
+    // 粒子碰撞特效 - 立即执行
+    (function() {
+        const canvas = document.getElementById('particles-canvas');
+        if (!canvas) return;
+        
+        const ctx = canvas.getContext('2d');
+        
+        // 设置画布大小
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        // 粒子类
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * 2 - 1;
+                this.color = `rgba(47, 143, 131, ${Math.random() * 0.5 + 0.2})`;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // 边界检测
+                if (this.x > canvas.width || this.x < 0) {
+                    this.speedX = -this.speedX;
+                }
+                if (this.y > canvas.height || this.y < 0) {
+                    this.speedY = -this.speedY;
+                }
+            }
+            
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        // 创建粒子数组
+        const particlesArray = [];
+        const numberOfParticles = 100;
+        
+        function init() {
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+        
+        // 连接粒子
+        function connect() {
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a + 1; b < particlesArray.length; b++) {
+                    const dx = particlesArray[a].x - particlesArray[b].x;
+                    const dy = particlesArray[a].y - particlesArray[b].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        ctx.strokeStyle = `rgba(47, 143, 131, ${0.2 * (1 - distance/100)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+        
+        // 动画循环
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            
+            connect();
+            requestAnimationFrame(animate);
+        }
+        
+        init();
+        animate();
+    })();
+</script>
+<!--顶级的content是用来充当3D旋转的容器-->
+<div class="stage">
+    <div class="content">
+        <!--登陆界面-->
+        <div class="login">
+            <div class="check_mark">
+                <div class="left_mark">
+                </div>
+                <div class="right_mark">
+                </div>
+            </div>
+            <div class="panel-header">
+                <h2 class="panel-title">Welcome Back</h2>
+                <p class="panel-subtitle">Login with your phone number to continue exploring campus treasures</p>
+            </div>
+            <form action="/login.do" method="post">
+                <div class="login_form">
+
+                    <div class="login_username">
+                        <!--svg就很溜-->
+                        <svg class="login_icon" viewBox="0 0 20 20">
+                            <path d="M0,20 a10,8 0 0,1 20,0z M10,0 a4,4 0 0,1 0,8 a4,4 0 0,1 0,-8"></path>
+                        </svg>
+                        <input type="hidden" th:value="${token}" class="token" name="token"/>
+                        <input type="text" placeholder="请输入11位手机号（13x-19x号段）" class="input_username placeholder" name="phone"/>
+                    </div>
+                    <div class="login_password">
+                        <svg class="password_icon" viewBox="0 0 20 20">
+                            <path d="M0,20 20,20 20,8 0,8z M10,13 10,16z M4,8 a6,8 0 0,1 12,0"></path>
+                        </svg>
+                        <input type="password" placeholder="Password" class="input_password placeholder" name="password"/>
+                    </div>
+                    <div class="go_forget_password">
+                        <a class="go_to_forget" href="#">Forgot Password?</a>
+                    </div>
+                    <div class="login_button_div">
+                        <button class="login_button">Login</button>
+                    </div>
+                    <div class="register_info">
+                        <span>No account? <a class="flip_to_register" href="#">Register now</a></span>
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
+        <!--右侧的第二个页面-->
+        <div class="register_page">
+            <div class="top_icon">
+                <svg class="circle_icon">
+                    <circle cx="50%" cy="55%" r="25%" stroke="white" stroke-width="20" fill="none"/>
+                </svg>
+            </div>
+            <div class="get_vcode">
+                <div class="nickname_div">
+                    <span class="n_span">N</span>
+                    <input class="input_nickname  placeholder" type="text" placeholder="Username"/>
+                </div>
+                    <div class="register_phone_div">
+                    <!--svg就很溜-->
+                    <svg class="register_phone_svg" viewBox="0 0 20 20">
+                        <path d="M0,20 a10,8 0 0,1 20,0z M10,0 a4,4 0 0,1 0,8 a4,4 0 0,1 0,-8"></path>
+                    </svg>
+                    <input type="text" placeholder="请输入11位手机号（13x-19x号段）" class="register_input_phone placeholder"/>
+                </div>
+                <div class="register_vcode_div">
+                    <input type="text" placeholder="验证码（本地测试：1479）" class="register_input_vcode placeholder"/>
+                    <button class="get_vcode_button">获取验证码</button>
+                </div>
+                <button class="go_enter_password_button">Next Step</button>
+                <div class="go_back_login_div">
+                    <a class="go_back_login" href="#">Back</a>
+                </div>
+            </div>
+            <!--<p>12345679</p>-->
+            <!--<button class="next_step">next</button>-->
+        </div>
+        <!--第三个页面-->
+        <div class="enter_password">
+            <!--            <p>12345679</p>
+                        <button class="second">next</button>-->
+            <div class="check_mark">
+                <div class="left_mark">
+                </div>
+                <div class="right_mark">
+                </div>
+            </div>
+            <div class="confirm_password_content">
+                <div class="confirm_password_div">
+                    <svg class="first_enter_password_icon" viewBox="0 0 20 20">
+                        <path d="M0,20 20,20 20,8 0,8z M10,13 10,16z M4,8 a6,8 0 0,1 12,0"></path>
+                    </svg>
+                    <input type="password" placeholder="Password" class="first_enter_password_input placeholder"/>
+                </div>
+                <div class="confirm_password_div">
+                    <svg class="confirm_password_icon" viewBox="0 0 20 20">
+                        <path d="M0,20 20,20 20,8 0,8z M10,13 10,16z M4,8 a6,8 0 0,1 12,0"></path>
+                    </svg>
+                    <input type="password" placeholder="Confirm Password" class="confirm_password_input placeholder"/>
+                </div>
+                <div class="login_button_div">
+                    <button class="confirm_register_button" onclick="return false;">Register</button>
+                </div>
+                <div class="go_back_up_div">
+                    <a class="go_back_up" href="#">Previous Step</a>
+                </div>
+            </div>
+        </div>
+        <!--第4个页面-->
+        <div class="forget_password">
+            <div class="top_icon">
+                <svg class="circle_icon">
+                    <circle cx="50%" cy="55%" r="25%" stroke="white" stroke-width="20" fill="none"/>
+                </svg>
+            </div>
+            <div class="forget_get_vcode">
+                    <div class="forget_phone_div">
+                    <!--svg就很溜-->
+                    <svg class="register_phone_svg" viewBox="0 0 20 20">
+                        <path d="M0,20 a10,8 0 0,1 20,0z M10,0 a4,4 0 0,1 0,8 a4,4 0 0,1 0,-8"></path>
+                    </svg>
+                    <input type="text" placeholder="请输入11位手机号（13x-19x号段）" class="forget_input_phone placeholder"/>
+                </div>
+                <div class="forget_get_vcode_div">
+                    <input type="text" placeholder="验证码（本地测试：1479）" class="forget_input_vcode placeholder"/>
+                    <button class="forget_get_vcode_button">获取验证码</button>
+                </div>
+                <button class="forget_password_button">Next Step</button>
+                <div class="go_back_login_div">
+                    <a class="go_back_login_from_forget" href="#">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

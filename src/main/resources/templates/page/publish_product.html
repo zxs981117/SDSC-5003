@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Publish Product</title>
+    <link href="/css/home_page/header_and_nav.css" rel="stylesheet"/>
+    <link rel="icon" href="/img/page_icon.png"/>
+    <link rel="stylesheet" href="/css/fontawesome/css/all.min.css"/>
+    <link href="/css/product/publish_product.css" rel="stylesheet"/>
+    <script src="/js/jquery-1.3.2.min.js"></script>
+    <script src="/js/home/header_model_js.js"></script>
+    <script src="/js/mall/type_list_obj.js"></script>
+    <script src="/js/publish/publish_product.js"></script>
+    <script src="/js/publish/publish_product_modern.js"></script>
+</head>
+<body>
+<header th:include="header :: copy"></header>
+<div th:include="short_nav_show :: short_nav_show" class="short_nav_show"></div>
+<nav th:include="my_nav :: my_nav" class="my_nav"></nav>
+<div th:include="personal_nav :: personal_nav" class="personal_nav"></div>
+<div style="display: none" th:if="${message}!=null" th:value="${message}" th:text="${message}" class="show_tip"></div>
+<div class="publish-container">
+    <div class="publish-card">
+        <div class="card-header">
+            <i class="fas fa-plus-circle"></i>
+            <h1>Publish Product</h1>
+        </div>
+        
+        <form action="/insertGoods.do" method="post" enctype="multipart/form-data" class="publish-form">
+            <input type="hidden" th:value="${token}" name="token"/>
+            <input type="hidden" th:value="${action}" value="1" name="action" class="action"/>
+            <input type="hidden" th:if="${shopInformation.id}!=null" th:value="${shopInformation.id}" name="id"/>
+            <input type="hidden" th:if="${shopInformation.id}==null" value="0" name="id"/>
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-tag"></i>
+                    Product Name
+                </label>
+                <div class="form-input">
+                    <input type="text" class="title_input" name="name" required="required" placeholder="Please enter product name"
+                           th:if="${shopInformation.name}==null"/>
+                    <input type="text" class="title_input" name="name" required="required" placeholder="Please enter product name"
+                           th:if="${shopInformation.name}!=null" th:value="${shopInformation.name}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-star"></i>
+                    Condition
+                </label>
+                <div class="form-input">
+                    <select class="choose_chengse" name="level">
+                        <div style="display: none" th:if="${shopInformation.level}!=null"
+                             th:switch="${shopInformation.level}">
+                            <option th:case="'3'" value="3">30% New</option>
+                            <option th:case="'4'" value="4">40% New</option>
+                            <option th:case="'5'" value="5">50% New</option>
+                            <option th:case="'6'" value="6">60% New</option>
+                            <option th:case="'7'" value="7">70% New</option>
+                            <option th:case="'8'" value="8">80% New</option>
+                            <option th:case="'9'" value="9">90% New</option>
+                            <option th:case="'10'" value="10">Brand New</option>
+                        </div>
+                        <option value="3">30% New</option>
+                        <option value="4">40% New</option>
+                        <option value="5">50% New</option>
+                        <option value="6">60% New</option>
+                        <option value="7" selected="selected">70% New</option>
+                        <option value="8">80% New</option>
+                        <option value="9">90% New</option>
+                        <option value="10">Brand New</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-yen-sign"></i>
+                    Unit Price
+                </label>
+                <div class="form-input price-input">
+                    <input type="text" class="cost_input" name="price" required="required" placeholder="0.00"
+                           th:if="${shopInformation.price}==null"/>
+                    <input type="text" class="cost_input" name="price" required="required" placeholder="0.00"
+                           th:if="${shopInformation.price}!=null" th:value="${shopInformation.price}"/>
+                    <span class="currency">USD</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-sort-numeric-up"></i>
+                    Quantity
+                </label>
+                <div class="form-input">
+                    <input type="text" class="count_input" name="quantity" required="required" placeholder="Please enter quantity"
+                           th:if="${shopInformation.quantity}==null"/>
+                    <input type="text" class="count_input" name="quantity" required="required" placeholder="Please enter quantity"
+                           th:if="${shopInformation.quantity}!=null" th:value="${shopInformation.quantity}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-align-left"></i>
+                    Details
+                </label>
+                <div class="form-input">
+                    <textarea class="detail_textarea" maxlength="122" placeholder="Leave contact information for buyers to reach you" name="remark"
+                              required="required" th:if="${shopInformation.remark}==null"></textarea>
+                    <textarea class="detail_textarea" maxlength="122" placeholder="Leave contact information for buyers to reach you" name="remark"
+                              required="required"
+                              th:if="${shopInformation.remark}!=null" th:value="${shopInformation.remark}"
+                              th:text="${shopInformation.remark}"></textarea>
+                    <div class="char-count">
+                        <span class="current">0</span>/<span class="max">122</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-list"></i>
+                    Category
+                </label>
+                <div class="form-input category-select">
+                    <select class="choose_first_type">
+                        <option id="type_1" selected="selected">Digital Technology</option>
+                        <option id="type_2">Audio & Home Appliances</option>
+                        <option id="type_3">Shoes, Clothing & Accessories</option>
+                        <option id="type_4">Sports & Transportation</option>
+                        <option id="type_5">Books & Stationery</option>
+                        <option id="type_6">Others</option>
+                    </select>
+                    <i class="fas fa-chevron-right category-arrow"></i>
+                    <select class="choose_second_type">
+                        <option>30% New</option>
+                        <option>40% New</option>
+                        <option>50% New</option>
+                        <option>60% New</option>
+                        <option>70% New</option>
+                        <option>80% New</option>
+                        <option>90% New</option>
+                        <option>Brand New</option>
+                    </select>
+                    <i class="fas fa-chevron-right category-arrow"></i>
+                    <select class="choose_third_type" name="sort">
+                        <option>30% New</option>
+                        <option>40% New</option>
+                        <option>50% New</option>
+                        <option>60% New</option>
+                        <option>70% New</option>
+                        <option>80% New</option>
+                        <option>90% New</option>
+                        <option>Brand New</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-image"></i>
+                    Images
+                </label>
+                <div class="form-input">
+                    <div class="image-upload">
+                        <div class="upload-area">
+                            <input class="upload_img_input" type="file" name="image" required="required" accept="image/*"/>
+                            <div class="upload-placeholder">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Click to upload images</p>
+                                <span>Supports JPG, PNG format</span>
+                            </div>
+                        </div>
+                        <div class="image-preview">
+                            <img src="" class="show_choose_img" id="show_choose_img"/>
+                            <img src="" class="show_choose_img" th:if="${shopInformation.image}!=null"
+                                 th:src="${shopInformation.image}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i>
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer class="mall-footer">
+    <p>Copyright © 2017.Company name All rights reserved.<a href="/"></a></p>
+</footer>
+</body>
+</html>
