@@ -2,16 +2,6 @@
 
 A web-based Second-hand Trading Platform designed for university campuses. This project allows students to buy and sell used goods conveniently. It is built using **Spring Boot** and utilizes **MyBatis** for data access and **Thymeleaf** for the frontend.
 
-## 📋 Table of Contents
-- [Features](#-features)
-- [Project Structure](#-project-structure)
-- [Tech Stack](#-tech-stack)
-- [Prerequisites](#-prerequisites)
-- [Installation & Setup](#-installation--setup)
-- [How to Run](#-how-to-run)
-
----
-
 ## ✨ Features
 * **User Authentication**: Token-based login system.
 * **Goods Management**: Publish, edit, and delete trading items.
