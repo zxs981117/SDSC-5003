@@ -1,4 +1,4 @@
-# CityU Campus Used Trading Platform (Spring Boot)
+# Campus Used Trading Platform (Spring Boot)
 
 A web-based Second-hand Trading Platform designed for university campuses. This project allows students to buy and sell used goods conveniently. It is built using **Spring Boot** and utilizes **MyBatis** for data access and **Thymeleaf** for the frontend.
 
@@ -51,49 +51,54 @@ Used-Trading-Platform/
 │       └── application.yml    # Main Configuration File
 ├── .gitignore
 └── README.md
+````
 
-🛠 Tech Stack
-Language: Java 8+
+-----
 
-Framework: Spring Boot
+## 🛠 Tech Stack
 
-Database: MySQL 5.7 / 8.0
+  * **Language**: Java 8+
+  * **Framework**: Spring Boot
+  * **Database**: MySQL 5.7 / 8.0
+  * **ORM**: MyBatis
+  * **Frontend**: Thymeleaf, HTML, CSS, JavaScript
+  * **Build Tool**: Maven
 
-ORM: MyBatis
+-----
 
-Frontend: Thymeleaf, HTML, CSS, JavaScript
+## ⚙️ Prerequisites
 
-Build Tool: Maven
-
-⚙️ Prerequisites
 Before running the project, make sure you have:
 
-JDK 1.8 or higher installed.
+1.  **JDK 1.8** or higher installed.
+2.  **MySQL** server running.
+3.  **Maven** installed (or use the IDE's built-in Maven).
+4.  An IDE like **IntelliJ IDEA** or Eclipse.
 
-MySQL server running.
+-----
 
-Maven installed (or use the IDE's built-in Maven).
+## 🚀 Installation & Setup
 
-An IDE like IntelliJ IDEA or Eclipse.
+### 1\. Clone the Repository
 
-🚀 Installation & Setup
-1. Clone the Repository
-Bash
-
+```bash
 git clone [https://github.com/wsk1103/Used-Trading-Platform2.git](https://github.com/wsk1103/Used-Trading-Platform2.git)
-2. Database Initialization
-Create a MySQL database (default name is usually c2c or used_trading_platform).
+```
 
-SQL
+### 2\. Database Initialization
 
-CREATE DATABASE c2c DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-Run the SQL script located at SQL/c2c.sql to create tables and import data.
+1.  Create a MySQL database (default name is usually `c2c` or `used_trading_platform`).
+    ```sql
+    CREATE DATABASE c2c DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+    ```
+2.  Run the SQL script located at **`SQL/c2c.sql`** to create tables and import data.
 
-3. Application Configuration
-Open src/main/resources/application.yml. Modify the database connection settings to match your local environment:
+### 3\. Application Configuration
 
-YAML
+Open `src/main/resources/application.yml`.
+Modify the database connection settings to match your local environment:
 
+```yaml
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/c2c?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
@@ -103,25 +108,43 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapping/*.xml  # Points to XML mappers
-▶️ How to Run
-Option 1: Using IntelliJ IDEA (Recommended)
-Open the project directory.
+```
 
-Wait for Maven to download dependencies.
+-----
 
-Locate src/main/java/com/wsk/UsedTradingPlatformApplication.java.
+## ▶️ How to Run
 
-Right-click and select Run 'UsedTradingPlatformApplication'.
+### Option 1: Using IntelliJ IDEA (Recommended)
 
-Option 2: Using Command Line
-Bash
+1.  Open the project directory.
+2.  Wait for Maven to download dependencies.
+3.  Locate `src/main/java/com/wsk/UsedTradingPlatformApplication.java`.
+4.  Right-click and select **Run 'UsedTradingPlatformApplication'**.
 
+### Option 2: Using Command Line
+
+```bash
 mvn spring-boot:run
+```
+
 Once started, access the application at:
 
-http://localhost:8080 (or the port defined in application.yml)
+  * **http://localhost:8080** (or the port defined in `application.yml`)
 
-❓ Troubleshooting
-Static Resources 404: Since the static folder is named mystatic, ensure your Spring Boot configuration (or WebMvcConfig) correctly maps static resource paths to classpath:/mystatic/.
+-----
 
-Database Connection Failed: Double-check the url, username, and password in application.yml.
+## ❓ Troubleshooting
+
+  * **Static Resources 404**:
+    Since the static folder is named `mystatic`, ensure your Spring Boot configuration (or `WebMvcConfig`) correctly maps static resource paths to `classpath:/mystatic/`.
+
+  * **Database Connection Failed**:
+    Double-check the `url`, `username`, and `password` in `application.yml`.
+
+-----
+
+**License**
+This project is open source.
+
+```
+```
